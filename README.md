@@ -14,12 +14,14 @@
 | `.claude/skills/reverse-engineer-anything/` | `rea-agents@6.4.0` 패키지에 포함된 REA 워크플로 스킬 사본(MIT, `LICENSE` 동봉). `npx rea-agents setup`이 설치하는 스킬과 같습니다 |
 | `scripts/verify-rea-mcp.mjs` | `.mcp.json` 설정 그대로 서버를 띄워 실제 도구 호출까지 검증합니다 |
 
-문서가 안내하는 `npx rea-agents setup`은 사용자 범위(`~/.claude.json`)에 등록합니다. 일회성 클라우드 컨테이너에서는 세션이 끝나면 사라지므로, 같은 구성을 저장소에 커밋되는 프로젝트 범위 설정으로 만들었습니다.
+문서가 안내하는 `npx rea-agents setup`은 사용자 범위(`~/.claude.json`)에 같은 명령(`npx -y rea-agents@<버전> mcp`)을 등록합니다. 일회성 클라우드 컨테이너에서는 세션이 끝나면 사라지므로, 같은 등록을 저장소에 커밋되는 프로젝트 범위로 만들었습니다.
+
+업스트림은 한 프로젝트에서만 쓸 때 local 범위(`claude mcp add --scope local ...`)를 권하고, 커밋된 `.mcp.json`이 다른 곳으로 복사될 수 있으니 `--scope project`는 피하라고 합니다([설치 문서](https://github.com/morluto/rea/blob/main/docs/installation.md#limit-rea-to-one-project-or-agent-profile)). 이 저장소는 REA 사용 전용이고 local 범위는 클라우드 세션에 남지 않아서 project 범위를 의도적으로 골랐습니다. REA가 없어야 하는 프로젝트(예: 분석 결과와 분리해야 하는 클린룸 구현)에는 `.mcp.json`과 `.claude/`를 복사하지 마세요.
 
 ## 사용법
 
 1. 이 저장소에서 새 Claude Code 세션을 시작합니다. 이미 실행 중인 세션에는 MCP 서버가 추가되지 않습니다. 로컬 CLI에서는 프로젝트 MCP 서버 승인 프롬프트가 한 번 나타납니다.
-2. `/mcp`에서 `rea`가 연결됐는지 확인합니다. 도구는 `mcp__rea__<도구명>`으로 노출됩니다.
+2. `/mcp`에서 `rea`가 연결됐는지 확인합니다. 도구는 `mcp__rea__<도구명>`으로 노출됩니다. 서버는 백그라운드에서 기동하므로 세션 시작 직후에는 `pending`일 수 있습니다(최초 실행은 `npx` 다운로드로 약 15초).
 3. 에이전트에게 요청합니다.
    - `HAR 파일 /절대경로/session.har 을 REA로 분석해서 호출된 API를 정리해줘.` (`inspect_web_network_capture`)
    - `압축을 푼 Electron 앱 /절대경로/app 의 모듈 구조와 IPC 경계를 증거와 함께 설명해줘.` (`analyze_javascript_application`)
@@ -32,6 +34,12 @@ node scripts/verify-rea-mcp.mjs
 ```
 
 서버 기동, `tools/list`, 합성 HAR에 대한 `inspect_web_network_capture` 실제 호출, 인증 헤더 제외 확인까지 수행합니다. 모두 통과하면 `REA MCP is callable.`을 출력하고 종료 코드 0으로 끝납니다.
+
+업스트림의 기동 점검도 쓸 수 있습니다. 도구 170/170, 프롬프트 6/6, 카탈로그 다이제스트 일치, 요청 흐름을 확인합니다.
+
+```bash
+npx -y rea-agents@6.4.0 mcp doctor --json
+```
 
 ## 요구 사항
 
@@ -46,7 +54,7 @@ node scripts/verify-rea-mcp.mjs
 npx -y rea-agents@6.4.0 doctor --json
 ```
 
-`doctor`는 사용자 범위(`~/.claude/skills`)의 스킬만 검사하므로, 이 저장소처럼 스킬을 프로젝트 범위에 두면 `skill:identity`가 `missing`으로 나옵니다. 정상입니다. 분석 엔진 항목은 네이티브 분석을 쓸 때만 필요합니다.
+`doctor`는 사용자 범위(`~/.claude.json`, `~/.claude/skills`)만 검사하므로 이 저장소의 프로젝트 범위 MCP 등록과 스킬은 보이지 않습니다. 등록 없음, `skill:identity`가 `missing`으로 나오는 것은 정상이며, 이 저장소의 설정은 위의 두 점검으로 확인하세요. 분석 엔진 항목은 네이티브 분석을 쓸 때만 필요합니다.
 
 ## 버전 고정과 업그레이드
 
@@ -71,8 +79,13 @@ node scripts/verify-rea-mcp.mjs
 - REA의 런타임 캡처 도구는 대상 프로그램을 사용자 권한으로 실행할 수 있습니다. 신뢰할 수 없는 대상은 격리된 환경에서 분석하세요.
 - HAR에는 유효한 토큰이 들어 있을 수 있으므로 테스트 계정으로 만드세요. REA는 인증 헤더와 쿠키를 증거에서 제외합니다(`verify-rea-mcp.mjs`가 확인).
 - 분석 대상에 대한 사용 권한 확인과 법적 책임은 사용자에게 있습니다.
+- Claude Code는 보통 MCP 도구 정의를 tool search로 지연 로딩합니다. `ANTHROPIC_BASE_URL`이 서드파티 호스트를 가리키면 이것이 꺼져서 도구 스키마가 매 요청에 실립니다(업스트림 측정: 도구 172개에 약 496 KB, 약 12만 토큰). 그런 환경에서는 `ENABLE_TOOL_SEARCH=true`를 쓰거나 `.mcp.json`의 `env`에 `REA_MCP_INPUT_SCHEMA_PROFILE=compact`(약 290 KB)를 추가하세요([상세](https://github.com/morluto/rea/blob/main/docs/client-configuration.md#claude-code)).
 
-## 문서와 다른 점
+## 업스트림 대조
 
-- 문서는 HAR 흐름에서 `inspect_analysis_view`의 `api-surface` 뷰를 언급하지만, 6.4.0에는 없습니다(도구 스키마와 패키지 전체 검색으로 확인). 이 릴리스에서는 `inspect_web_network_capture` 결과(레코드별 메서드, URL, 상태)를 에이전트가 정리하게 하세요.
-- 문서는 수동 MCP 등록 JSON을 싣지 않고 `docs/installation.md`를 가리킵니다. 이 저장소의 `.mcp.json`은 `claude mcp add`가 생성한 형식이고, 등록 명령 `npx -y rea-agents@<version> mcp`는 `rea-agents` 패키지 코드에 수동 등록용으로 명시된 명령입니다.
+`morluto/rea`의 `main`(`29d3dcb`)과 6.4.0 릴리스 커밋(`a56f7bb`)을 2026-10-14에 대조했습니다.
+
+- **`api-surface`:** Apidog 문서가 말한 `inspect_analysis_view`의 `api-surface` 뷰는 `main`에만 있습니다. 6.4.0 릴리스(10/11) 다음 날인 10/12에 추가됐고(#1891) 6.4.0에는 없습니다. 이 릴리스에서는 `inspect_web_network_capture` 결과(레코드별 메서드, URL, 상태)를 에이전트가 정리하게 하세요. 뷰가 들어간 릴리스가 나오면 위 절차로 버전을 올린 뒤, `inspect_web_network_capture`가 돌려준 증거를 `inspect_analysis_view`에 `view: {"kind":"api-surface"}`로 넘기면 됩니다.
+- **릴리스와 `main`:** `main`의 `package.json`도 6.4.0이지만 내용은 릴리스와 다릅니다. 업스트림도 새 기능은 릴리스나 소스 빌드가 있어야 쓸 수 있다고 안내합니다. 릴리스 확인은 `npm view rea-agents dist-tags.latest`입니다.
+- **수동 등록:** `.mcp.json`의 명령은 업스트림 [`docs/installation.md#mcp-registry`](https://github.com/morluto/rea/blob/main/docs/installation.md#mcp-registry)의 JSON과 같고, 영구 등록은 정확한 버전 하나로 고정하라는 지침과도 맞습니다. Apidog 문서에는 이 JSON이 없습니다.
+- **스킬 버전:** `main`의 스킬(v42)은 `api-surface`를 언급하지만, 이 저장소에는 서버와 짝이 맞는 6.4.0 번들 스킬(v37, 도구 170개)을 넣었습니다. `npx skills add morluto/rea`로 덮어쓰지 마세요.
