@@ -20,12 +20,67 @@
 
 ## 사용법
 
-1. 이 저장소에서 새 Claude Code 세션을 시작합니다. 이미 실행 중인 세션에는 MCP 서버가 추가되지 않습니다. 로컬 CLI에서는 프로젝트 MCP 서버 승인 프롬프트가 한 번 나타납니다.
+1. 이 저장소에서 새 Claude Code 세션을 시작하는 것이 확실합니다. 이미 실행 중인 세션은 설정을 다시 읽을 때만 반영됩니다. 로컬 CLI에서는 프로젝트 MCP 서버 승인 프롬프트가 한 번 나타납니다.
 2. `/mcp`에서 `rea`가 연결됐는지 확인합니다. 도구는 `mcp__rea__<도구명>`으로 노출됩니다. 서버는 백그라운드에서 기동하므로 세션 시작 직후에는 `pending`일 수 있습니다(최초 실행은 `npx` 다운로드로 약 15초).
 3. 에이전트에게 요청합니다.
    - `HAR 파일 /절대경로/session.har 을 REA로 분석해서 호출된 API를 정리해줘.` (`inspect_web_network_capture`)
    - `압축을 푼 Electron 앱 /절대경로/app 의 모듈 구조와 IPC 경계를 증거와 함께 설명해줘.` (`analyze_javascript_application`)
    - 문서의 예시: `Understand how search works in the Notes app, show me the evidence, and build a similar feature for my project.` (네이티브 앱은 아래 분석 엔진이 필요합니다)
+
+## 기기별 사용법
+
+REA는 **분석할 파일이 있는 컴퓨터**에서 실행되는 로컬(stdio) 서버입니다. HTTPS 주소가 없어서 claude.ai의 "Add custom connector"로는 등록할 수 없고, 아래처럼 Claude Code 세션이 직접 실행하게 합니다.
+
+| 기기 | 방법 | REA가 실행되는 곳 |
+| --- | --- | --- |
+| iPhone | Claude 앱 **Code** 탭에서 클라우드 세션 시작 | 클라우드 컨테이너 |
+| iPhone | 내 PC에서 `claude remote-control`을 실행하고 앱에서 접속 | 내 PC |
+| Windows / Mac | 저장소 폴더에서 `claude` 실행 (CLI 또는 Desktop 앱 Code 탭의 Local) | 내 PC |
+| Windows / Mac | Claude Desktop 채팅에 등록 (`setup --client claude_desktop`) | 내 PC |
+
+Desktop 앱 Code 탭에서 **Cloud**를 고르면 iPhone과 같은 클라우드 세션입니다.
+
+### iPhone: 클라우드 세션
+
+1. Claude 앱의 **Code** 탭에서 저장소 `soonhakahn/REA_Reverse_Anything`를 고릅니다. 저장소 선택기 아래의 브랜치 선택기로 시작 브랜치를 정합니다(PR 머지 후에는 기본값 `main`).
+2. 요청을 입력합니다. `rea`는 처음에 `pending`이다가 약 15초 뒤 연결됩니다.
+3. 분석할 파일은 컨테이너 안에 있어야 합니다. 저장소에 커밋하거나 앱에서 첨부하세요. 첨부는 세션의 `/root/.claude/uploads/<세션>/`에 저장됩니다(이미지로 확인했고, HAR 같은 다른 형식은 앱 지원 여부에 따라 다릅니다). 기본 환경(`Trusted`)은 패키지 레지스트리와 허용 도메인 밖으로의 접속을 막으므로 임의 URL 다운로드는 안 됩니다.
+
+### iPhone: 내 PC의 세션을 원격 조종 (Remote Control)
+
+PC에 있는 대상(설치된 네이티브 앱 등)을 분석할 때 알맞습니다. 코드 실행과 파일은 PC에 남습니다.
+
+1. PC에서 `claude`에 claude.ai 계정으로 로그인하고, 이 저장소 폴더에서 `claude`를 한 번 실행해 `rea` 서버를 승인한 뒤 종료합니다(승인 프롬프트는 대화형 세션에서 뜹니다).
+2. 같은 폴더에서 `claude remote-control`을 실행하고 스페이스바로 QR 코드를 띄워 폰으로 스캔합니다. 앱의 **Code** 탭 세션 목록에서도 찾을 수 있습니다(컴퓨터 아이콘, 초록 점).
+3. 폰에서 첨부한 파일은 PC로 내려받아 `@` 파일 참조로 전달됩니다. PC가 켜져 있고 프로세스가 실행 중이어야 합니다. `ANTHROPIC_BASE_URL`이 `api.anthropic.com`이 아니면 쓸 수 없습니다.
+
+### Windows / Mac: Claude Code
+
+1. Node.js 22.19+(또는 24.11+, 26+)를 설치하고 저장소를 받습니다.
+
+   ```bash
+   git clone https://github.com/soonhakahn/REA_Reverse_Anything
+   cd REA_Reverse_Anything
+   git checkout claude/rea-mcp-setup   # main에 머지된 뒤에는 생략
+   ```
+
+2. `claude`를 실행하고 프로젝트 MCP 서버 `rea` 승인 프롬프트에서 승인합니다. `/mcp`에서 연결을 확인합니다.
+3. 네이티브 Windows에서는 업스트림이 `npx`를 `cmd.exe /d /c`로 감싸라고 안내합니다(직접 테스트하지 못했습니다). 저장소 폴더에서 다음을 실행하면 local 범위가 project 범위보다 우선해서, 커밋된 `.mcp.json`을 고치지 않고 덮어씁니다. WSL(Linux)에서는 `.mcp.json` 그대로 쓰면 됩니다.
+
+   ```powershell
+   claude mcp add --scope local rea -- cmd.exe /d /c npx -y rea-agents@6.4.0 mcp
+   ```
+
+### Windows / Mac: Claude Desktop 채팅
+
+Desktop 앱의 채팅에서 REA를 쓰려면 사용자 범위로 등록합니다. 이 저장소의 설정과는 별개입니다.
+
+```bash
+npx rea-agents@6.4.0 setup --client claude_desktop --dry-run   # 계획 확인
+npx rea-agents@6.4.0 setup --client claude_desktop             # 승인 후 적용
+```
+
+Claude Desktop은 창만 닫지 말고 완전히 종료한 뒤 실행하고, 끝나면 다시 시작합니다. Windows(MSIX 버전)에서는 Desktop 앱 안의 터미널이 아니라 일반 터미널에서 실행하세요.
 
 ## 동작 확인
 
