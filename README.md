@@ -42,7 +42,7 @@ Desktop 앱 Code 탭에서 **Cloud**를 고르면 iPhone과 같은 클라우드 
 
 ### iPhone: 클라우드 세션
 
-1. Claude 앱의 **Code** 탭에서 저장소 `soonhakahn/REA_Reverse_Anything`를 고릅니다. 저장소 선택기 아래의 브랜치 선택기로 시작 브랜치를 정합니다(PR 머지 후에는 기본값 `main`).
+1. Claude 앱의 **Code** 탭에서 저장소 `soonhakahn/REA_Reverse_Anything`를 고르면 기본 브랜치 `main`에서 시작합니다. 다른 브랜치에서 시작하려면 저장소 선택기 아래의 브랜치 선택기를 씁니다.
 2. 요청을 입력합니다. `rea`는 처음에 `pending`이다가 약 15초 뒤 연결됩니다.
 3. 분석할 파일은 컨테이너 안에 있어야 합니다. 저장소에 커밋하거나 앱에서 첨부하세요. 첨부는 세션의 `/root/.claude/uploads/<세션>/`에 저장됩니다(이미지로 확인했고, HAR 같은 다른 형식은 앱 지원 여부에 따라 다릅니다). 기본 환경(`Trusted`)은 패키지 레지스트리와 허용 도메인 밖으로의 접속을 막으므로 임의 URL 다운로드는 안 됩니다.
 
@@ -61,7 +61,6 @@ PC에 있는 대상(설치된 네이티브 앱 등)을 분석할 때 알맞습�
    ```bash
    git clone https://github.com/soonhakahn/REA_Reverse_Anything
    cd REA_Reverse_Anything
-   git checkout claude/rea-mcp-setup   # main에 머지된 뒤에는 생략
    ```
 
 2. `claude`를 실행하고 프로젝트 MCP 서버 `rea` 승인 프롬프트에서 승인합니다. `/mcp`에서 연결을 확인합니다.
