@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "baselineCommit": "3c649ad6de4dc9794cab699c5d8780de77735a3b",
+  "checkedQuestions": 160,
+  "unchangedFields": [
+    "id",
+    "answer",
+    "lesson",
+    "level",
+    "type",
+    "code"
+  ],
+  "codeQuestionOptionsUnchanged": 80
+}

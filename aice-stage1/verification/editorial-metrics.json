@@ -1,11 +1,17 @@
 {
-  "correctStrictlyLongest": 13,
-  "correctLongestIncludingTies": 27,
+  "correctStrictlyLongest": 20,
+  "correctLongestIncludingTies": 20,
   "choiceQuestionCount": 80,
   "absoluteWordsInWrongOptions": 6,
+  "correctPositionCounts": {
+    "1": 18,
+    "3": 21,
+    "0": 24,
+    "2": 17
+  },
   "levels": {
-    "1": 45,
-    "2": 96,
-    "3": 19
+    "1": 54,
+    "2": 71,
+    "3": 35
   }
 }
