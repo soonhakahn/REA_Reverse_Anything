@@ -1,0 +1,65 @@
+{
+  "reviewTarget": "cbade5a11b3c13e41dd0dfdeef93ff8a4b8ef6ce",
+  "files": [
+    {
+      "path": "site/assets/app.js",
+      "sha256": "f8bbf8abc7f05ee641f27906043fba9b469dd4f99c467ff8fc4b78ca96074b0f",
+      "bytes": 39633
+    },
+    {
+      "path": "site/assets/courses.json",
+      "sha256": "2e1291b8acca888e1503681448667bf2597670cb5cab36e91ad40d806a6df1ac",
+      "bytes": 19879
+    },
+    {
+      "path": "site/assets/exams.json",
+      "sha256": "9a7723f952828a114b018a72e7d529c97e701e25792644666ae926043bdde5dd",
+      "bytes": 101074
+    },
+    {
+      "path": "site/assets/library.css",
+      "sha256": "2b10f7bcc1cede82d356ff965e72d87f29e6121eabdb8c5a856c0dccade20750",
+      "bytes": 5903
+    },
+    {
+      "path": "site/assets/library.js",
+      "sha256": "622a500531a51091e028d874e356aed6db34301a71f345752f1de0b995ee0d0e",
+      "bytes": 9454
+    },
+    {
+      "path": "site/assets/materials.json",
+      "sha256": "953e7318d74b07aabf3cd0f4c2426d750e299265ae409fb74f547cc6ae2eea85",
+      "bytes": 4003
+    },
+    {
+      "path": "site/assets/models.json",
+      "sha256": "3362ca597704fbd42258e92fc7d057fc1f017f5dd7da9f54636781f41e6a690d",
+      "bytes": 3468
+    },
+    {
+      "path": "site/assets/practice-core.js",
+      "sha256": "601c142bc000237f22395782991cc823e951419346fdb33c2ea1f46df68cee30",
+      "bytes": 2527
+    },
+    {
+      "path": "site/assets/question-bank.json",
+      "sha256": "115fbc5cf76d053fc53b2c52dcc43f33027b23b9da2af155d4473ec5fdf75efb",
+      "bytes": 175437
+    },
+    {
+      "path": "site/assets/study-library.json",
+      "sha256": "a478131810313b142376640abe80eb1a43f2ca622df3ca471b51b75922d7100b",
+      "bytes": 283146
+    },
+    {
+      "path": "site/assets/style.css",
+      "sha256": "8a32bd35603598725ab1a1208af64c8390e27050e071da3c915ddaced8e74d3f",
+      "bytes": 20663
+    },
+    {
+      "path": "site/index.html",
+      "sha256": "b03b23e3ceb7fbd29c060dc2d0b6e02e049cd234184fa2d139f46714ac7e95df",
+      "bytes": 3322
+    }
+  ]
+}
