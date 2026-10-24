@@ -51,3 +51,6 @@ code-verification.json에 80개 코드 문항의 코드, 기대값, 관측값을
 - 실제 iPhone Safari에서의 기기 검증은 하지 않았습니다. 좁은 화면 Chromium 검사는 별도 보고합니다.
 - 학습자료실·실습실의 대용량 원본은 기존 호스팅에서 계속 제공되어야 합니다.
 - 영상 연동/플래시카드 등 2~4단계 기능은 추가하지 않았습니다.
+
+## 화면 및 회귀 검사 결과
+verification/browser-results.json에 통과 항목을 기록했습니다. browser-flow.js 및 legacy-flow.js는 Playwright CLI run-code용 재현 스크립트입니다. 실행은 로컬 QA 전용 저장소를 초기화하므로 운영 사이트에 실행하지 마세요. screenshots/에는 공식 안내 캡처와 실제 로컬 UI 화면을 담았습니다.

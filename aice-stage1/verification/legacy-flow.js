@@ -1,0 +1,25 @@
+async (page) => {
+ await page.goto('http://127.0.0.1:8765/#exam');
+ await page.evaluate(async()=>{
+ const ex=await(await fetch('assets/exams.json')).json(),e=ex[0],answers=e.questions.map(q=>q.answer);answers[0]=(answers[0]+1)%4;
+ const state={done:[2,4],history:[{id:'legacy-test',exam:e.id,title:e.title,score:90,correct:9,answers,at:100,automatic:false}],attempts:{core:{answers:[1,...Array(9).fill(null)],index:1,deadline:Date.now()+600000,submitted:false}},keepMe:'legacy custom value'};
+ localStorage.setItem('aice-studio-v1',JSON.stringify(state));
+ });
+ await page.reload();await page.getByRole('link',{name:'해설 보기 →'}).click();await page.locator('.analysis-panel').waitFor();
+ const legacyResult=await page.locator('.result-banner').innerText();if(!legacyResult.includes('9 / 10'))throw Error('legacy result');
+ await page.goto('http://127.0.0.1:8765/#wrong');await page.locator('[data-understood]').waitFor();
+ if(await page.locator('[data-understood]').count()!==1)throw Error('legacy notes migration');
+ await page.reload();await page.locator('[data-understood]').waitFor();
+ const migrated=await page.evaluate(()=>JSON.parse(localStorage.getItem('aice-studio-v1')));
+ if(migrated.keepMe!=='legacy custom value'||migrated.done.join(',')!=='2,4'||Object.values(migrated.wrongNotes)[0].count!==1)throw Error('legacy state changed');
+ await page.goto('http://127.0.0.1:8765/#exam/core');await page.locator('#timer').waitFor();
+ if(!await page.locator('.quiz-number').innerText().then(t=>t.includes('02 / 10')))throw Error('legacy attempt position lost');
+ await page.locator('[data-question="0"]').click();
+ if(!await page.locator('input[name=answer][value="1"]').isChecked())throw Error('legacy answer lost');
+ await page.setViewportSize({width:1360,height:950});await page.goto('http://127.0.0.1:8765/#exam');await page.locator('.exam-grid').waitFor();
+ await page.screenshot({path:'outputs/stage1-exams.png',fullPage:true});
+ await page.goto('http://127.0.0.1:8765/#bank');await page.locator('.bank-card').first().waitFor();
+ await page.locator('#bank-lesson').selectOption('6');await page.locator('#bank-type').selectOption('output');
+ await page.screenshot({path:'outputs/stage1-bank.png',fullPage:true});
+ return {status:'PASS',checks:['legacy result 9/10','one-time old wrong migration','old done and unknown field preserved','old attempt index and answer restored']};
+}

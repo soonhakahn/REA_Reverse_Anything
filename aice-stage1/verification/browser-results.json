@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-24",
+  "browser": "Playwright Chromium",
+  "status": "PASS",
+  "viewports": [
+    [
+      1360,
+      950
+    ],
+    [
+      390,
+      844
+    ]
+  ],
+  "checks": [
+    "bank filters",
+    "code display",
+    "answer persists on reload",
+    "timer deadline unchanged on reload",
+    "manual submission",
+    "eight lesson breakdown",
+    "wrong-only retry",
+    "perfect score disables retry",
+    "understood persists on reload",
+    "wrong notes deduplicated",
+    "mobile no document overflow",
+    "comprehensive has 14 questions",
+    "expired attempt automatically submits",
+    "legacy result 9/10",
+    "legacy wrong-note migration runs once",
+    "legacy progress/unknown field preserved",
+    "legacy attempt index/answers restored"
+  ],
+  "limitations": [
+    "not tested on physical iPhone Safari",
+    "Jupyter runtime and source PDFs not bundled or re-tested",
+    "no hosted deployment"
+  ]
+}

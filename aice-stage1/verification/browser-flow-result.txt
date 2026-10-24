@@ -1,0 +1,50 @@
+### Ran Playwright code
+```js
+await (async (page) => {
+ await page.goto('http://127.0.0.1:8765/#exam');
+ await page.evaluate(()=>localStorage.removeItem('aice-studio-v1'));await page.reload();
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.getByRole('link',{name:'문제 은행 →',exact:true}).click();
+ await page.locator('#bank-lesson').selectOption('0');
+ await page.locator('#bank-type').selectOption('error');
+ if(await page.locator('.bank-card').count()!==2)throw Error('bank filter');
+ await page.locator('[data-single="L01-Q19"]').click();
+ await page.locator('.question-code').waitFor();
+ const q=await page.evaluate(async()=>{const bank=await(await fetch('assets/question-bank.json')).json();return bank.find(q=>q.id==='L01-Q19')});
+ const wrong=(q.answer+1)%4;
+ await page.locator(`input[name=answer][value="${wrong}"]`).check();
+ const hash=await page.evaluate(()=>location.hash);
+ const deadline=await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('aice-studio-v1'));return s.attempts[location.hash.split('/')[1]].deadline});
+ await page.reload();await page.locator('.question-code').waitFor();
+ if(!await page.locator(`input[name=answer][value="${wrong}"]`).isChecked())throw Error('answer did not persist');
+ if(deadline!==await page.evaluate(()=>JSON.parse(localStorage.getItem('aice-studio-v1')).attempts[location.hash.split('/')[1]].deadline))throw Error('timer reset');
+ await page.locator('#submit').click();await page.locator('[data-ok]').click();await page.locator('.analysis-panel').waitFor();
+ if(await page.locator('progress').count()!==8)throw Error('missing analysis');
+ if(!await page.locator('#retry-wrong').isEnabled())throw Error('retry disabled');
+ await page.screenshot({path:'outputs/stage1-result.png',fullPage:true});
+ await page.locator('#retry-wrong').click();await page.locator('.question-code').waitFor();
+ await page.locator(`input[name=answer][value="${q.answer}"]`).check();await page.locator('#submit').click();await page.locator('[data-ok]').click();await page.locator('.analysis-panel').waitFor();
+ if(await page.locator('#retry-wrong').isEnabled())throw Error('retry should be disabled after full score');
+ await page.goto('http://127.0.0.1:8765/#wrong');await page.locator('[data-understood]').waitFor();await page.locator('[data-understood]').click();
+ if(await page.locator('[data-understood]').count()!==0)throw Error('resolved not filtered');
+ await page.reload();await page.locator('#wrong-filter').selectOption('resolved');
+ if(!await page.locator('[data-understood]').isChecked())throw Error('resolved state lost');
+ await page.locator('[data-understood]').click();await page.locator('#wrong-filter').selectOption('open');
+ if(await page.locator('[data-understood]').count()!==1)throw Error('wrong-note duplicates');
+ await page.setViewportSize({width:390,height:844});
+ if(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1))throw Error('mobile horizontal overflow');
+ await page.screenshot({path:'outputs/stage1-mobile.png',fullPage:true});
+ await page.goto('http://127.0.0.1:8765/#exam/comprehensive-1');await page.locator('#timer').waitFor();
+ if(await page.locator('[data-question]').count()!==14)throw Error('comprehensive length');
+ // Isolated QA origin: simulate elapsed time without touching the user's hosted data.
+ await page.evaluate(()=>{const s=JSON.parse(localStorage.getItem('aice-studio-v1'));s.attempts['comprehensive-1'].deadline=Date.now()-1;localStorage.setItem('aice-studio-v1',JSON.stringify(s))});
+ await page.reload();await page.locator('.analysis-panel').waitFor();
+ if(!await page.locator('.result-banner').innerText().then(t=>t.includes('자동 제출')))throw Error('expiry not auto-submitted');
+ if(errors.length)throw Error(errors.join('\n'));
+ console.log(JSON.stringify({status:'PASS',checks:['filter','code display','answer and timer reload','manual submit','lesson breakdown','wrong-only retry','perfect score','understood persistence','dedup','mobile overflow','14-question exam','expired attempt auto-submit'],pageErrors:errors}));
+}
+)(page);
+```
+### Page
+- Page URL: http://127.0.0.1:8765/#result/ace40494-def1-4226-8137-22b23c3eaa60
+- Page Title: 모의고사 결과 — AICE Studio
