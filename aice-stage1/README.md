@@ -54,3 +54,5 @@ code-verification.json에 80개 코드 문항의 코드, 기대값, 관측값을
 
 ## 화면 및 회귀 검사 결과
 verification/browser-results.json에 통과 항목을 기록했습니다. browser-flow.js 및 legacy-flow.js는 Playwright CLI run-code용 재현 스크립트입니다. 실행은 로컬 QA 전용 저장소를 초기화하므로 운영 사이트에 실행하지 마세요. screenshots/에는 공식 안내 캡처와 실제 로컬 UI 화면을 담았습니다.
+
+종합 5회는 총 70개의 서로 다른 문항으로 구성되며, 매 회차에 네 가지 문항 유형과 공식 범위에 연결한 7개 단원(군집/PCA 제외)이 모두 등장합니다.

@@ -9,6 +9,8 @@ assert.equal(bank.length,160);assert.equal(new Set(bank.map(q=>q.id)).size,160);
 for(let i=0;i<8;i++)assert.equal(bank.filter(q=>q.lesson===i).length,20);
 for(const q of bank){assert.ok(q.level>=1&&q.level<=3);assert.ok(q.answer>=0&&q.answer<4);assert.equal(new Set(q.options).size,4);assert.equal(q.optionExplanations.length,4);assert.ok(q.optionExplanations.every(x=>x.trim().length>0));}
 assert.equal(exams.length,8);
+assert.equal(new Set(exams.slice(3).flatMap(e=>e.questions.map(q=>q.id))).size,70);
+for(const e of exams.slice(3)){assert.equal(new Set(e.questions.map(q=>q.type)).size,4);for(const i of [0,1,2,3,4,6,7])assert.ok(e.questions.some(q=>q.lesson===i));}
 for(const e of exams.slice(3)){assert.equal(e.minutes,90);assert.equal(e.questions.length,14);assert.equal(new Set(e.questions.map(q=>q.id)).size,14);assert.equal(e.questions.filter(q=>[0,1].includes(q.lesson)).length,5);assert.equal(e.questions.filter(q=>q.lesson===2).length,4);assert.equal(e.questions.filter(q=>[3,4,6,7].includes(q.lesson)).length,5);}
 const legacy={done:[1,3],history:[{id:'old-record',exam:'core',title:'old',at:100,answers:old[0].questions.map(q=>q.answer)}],attempts:{core:{answers:Array(10).fill(null),deadline:99999999,index:2,submitted:false}},customKeep:'untouched'};
 const state=hydrate(legacy);assert.deepEqual(state.done,legacy.done);assert.deepEqual(state.history,legacy.history);assert.deepEqual(state.attempts,legacy.attempts);assert.equal(state.customKeep,'untouched');

@@ -119,14 +119,25 @@ assert len({q['text'] for q in questions})==160
 exams=json.loads((ROOT.parent/'verification/baseline-exams.json').read_text())
 # Each comprehensive round has 5 analysis, 4 preprocessing, 5 modelling concepts.
 # Chapter 5 (clustering/PCA) is supplementary and kept in the bank, not represented as official scope.
-pools=[[q for q in questions if q['lesson'] in ls] for ls in [[0,1],[2],[3,4,6,7]]]
+used=set()
+def choose(lesson,kind=None):
+ candidates=[q for q in questions if q['lesson']==lesson and q['id'] not in used and (kind is None or q['type']==kind)]
+ assert candidates,(lesson,kind)
+ q=candidates[0]; used.add(q['id']); return q
+# Cover all four modelling lessons and all four formats in each round.
+# No item is reused across the five comprehensive rounds.
 for round in range(5):
  selected=[]
- for pool,count in zip(pools,[5,4,5]):
-  # Deterministic interleaving of lesson and type across rounds, never duplicate within a round.
-  ordered=sorted(pool,key=lambda q:(int(q['id'].split('Q')[1]),q['lesson']))
-  random.Random(700+count+len(pool)).shuffle(ordered)
-  selected += [ordered[(round*count+j)%len(ordered)] for j in range(count)]
+ for lesson,count in [(0,3 if round%2==0 else 2),(1,2 if round%2==0 else 3)]:
+  for j in range(count):
+   kind='output' if j==0 else 'choice'
+   selected.append(choose(lesson,kind))
+ for j in range(4):
+  # All twenty preprocessing items are covered over the five rounds.
+  selected.append(choose(2))
+ for j,lesson in enumerate([3,4,6,7]):
+  selected.append(choose(lesson,['choice','blank','output','error'][(j+round)%4]))
+ selected.append(choose([3,4,6,7][round%4],'choice'))
  random.Random(900+round).shuffle(selected)
  exams.append(dict(id=f'comprehensive-{round+1}',title=f'종합 개념 모의고사 {round+1}회',desc='분석 5 · 전처리 4 · 모델링 5문항. 선택형 개념 연습이며 실제 파이썬 실기와 다릅니다.',minutes=90,questions=selected,practiceOnly=True,scopeCounts={'analysis':5,'preprocessing':4,'modeling':5},officialReference='https://aice.study/info/aice/asso',verifiedAt='2026-10-24'))
 (ROOT/'assets/exams.json').write_text(json.dumps(exams,ensure_ascii=False,indent=2))

@@ -1,0 +1,38 @@
+[
+  {
+    "path": "index.html",
+    "status": "modified",
+    "bytes": 3322,
+    "sha256": "b03b23e3ceb7fbd29c060dc2d0b6e02e049cd234184fa2d139f46714ac7e95df"
+  },
+  {
+    "path": "assets/practice-core.js",
+    "status": "added",
+    "bytes": 2527,
+    "sha256": "601c142bc000237f22395782991cc823e951419346fdb33c2ea1f46df68cee30"
+  },
+  {
+    "path": "assets/style.css",
+    "status": "modified",
+    "bytes": 20663,
+    "sha256": "8a32bd35603598725ab1a1208af64c8390e27050e071da3c915ddaced8e74d3f"
+  },
+  {
+    "path": "assets/exams.json",
+    "status": "modified",
+    "bytes": 104941,
+    "sha256": "5114de93b2fa2a396298f678e794606426385c8219275f1daf471a29fa32654e"
+  },
+  {
+    "path": "assets/question-bank.json",
+    "status": "added",
+    "bytes": 185151,
+    "sha256": "7f85177936f0b1b417038ca0264414a6b4ec97e961b9cdae42a531b3a4802e3c"
+  },
+  {
+    "path": "assets/app.js",
+    "status": "modified",
+    "bytes": 39633,
+    "sha256": "f8bbf8abc7f05ee641f27906043fba9b469dd4f99c467ff8fc4b78ca96074b0f"
+  }
+]

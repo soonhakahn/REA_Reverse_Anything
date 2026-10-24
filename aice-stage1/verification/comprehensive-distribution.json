@@ -1,0 +1,102 @@
+[
+  {
+    "id": "comprehensive-1",
+    "questions": 14,
+    "lessons": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 2,
+      "4": 1,
+      "5": 0,
+      "6": 1,
+      "7": 1
+    },
+    "types": {
+      "choice": 9,
+      "blank": 1,
+      "output": 3,
+      "error": 1
+    }
+  },
+  {
+    "id": "comprehensive-2",
+    "questions": 14,
+    "lessons": {
+      "0": 2,
+      "1": 3,
+      "2": 4,
+      "3": 1,
+      "4": 2,
+      "5": 0,
+      "6": 1,
+      "7": 1
+    },
+    "types": {
+      "choice": 9,
+      "blank": 1,
+      "output": 3,
+      "error": 1
+    }
+  },
+  {
+    "id": "comprehensive-3",
+    "questions": 14,
+    "lessons": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 1,
+      "4": 1,
+      "5": 0,
+      "6": 2,
+      "7": 1
+    },
+    "types": {
+      "choice": 7,
+      "blank": 1,
+      "output": 5,
+      "error": 1
+    }
+  },
+  {
+    "id": "comprehensive-4",
+    "questions": 14,
+    "lessons": {
+      "0": 2,
+      "1": 3,
+      "2": 4,
+      "3": 1,
+      "4": 1,
+      "5": 0,
+      "6": 1,
+      "7": 2
+    },
+    "types": {
+      "choice": 5,
+      "blank": 1,
+      "output": 7,
+      "error": 1
+    }
+  },
+  {
+    "id": "comprehensive-5",
+    "questions": 14,
+    "lessons": {
+      "0": 3,
+      "1": 2,
+      "2": 4,
+      "3": 2,
+      "4": 1,
+      "5": 0,
+      "6": 1,
+      "7": 1
+    },
+    "types": {
+      "choice": 5,
+      "blank": 3,
+      "output": 3,
+      "error": 3
+    }
+  }
+]
