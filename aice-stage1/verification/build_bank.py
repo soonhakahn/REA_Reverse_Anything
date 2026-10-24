@@ -23,7 +23,7 @@ def run(code):
 def output(lesson,text,code,expected,wrong,reason,level=2):
  actual=run(code);assert actual==expected,(text,actual,expected)
  opts=[expected]+wrong;assert len(set(opts))==4
- reasons=[reason]+[reason+f' 따라서 {v}은 이 코드의 출력이 아니다.' for v in wrong]
+ reasons=[reason]+[f'오답 선택지: «{v}». '+reason for v in wrong]
  add(lesson,text,opts,reasons,level,'output',code,verification={'kind':'output','code':code,'expected':expected,'observed':actual})
 def fill(lesson,text,template,opts,expected,reason,level=2,error=False):
  observed=[run(template.replace('____',o)) for o in opts]
@@ -111,6 +111,7 @@ scikit-learn의 neg_mean_squared_error 점수를 해석하면?|높을수록 좋�
 중첩 교차 검증의 목적은?|튜닝과 평가를 분리해 선택 편향을 줄임|모든 데이터 누수를 자동 차단|학습 데이터를 반드시 두 배로 복제|하이퍼파라미터를 없앰|안쪽 폴드로 선택하고 바깥 폴드로 성능을 평가한다.|잘못된 전처리나 타깃 누수까지 자동 해결하지 않는다.|표본 복제가 목적이 아니다.|튜닝할 파라미터가 있어도 사용한다.
 재현 가능한 실험 기록에 포함할 것은?|데이터 분할·시드·패키지 버전·파라미터|최고 점수 한 개만|마지막 스크린샷만|파일 이름만|같은 조건으로 실험을 반복하고 비교할 수 있도록 환경과 설정을 기록한다.|점수만으로 조건을 재현할 수 없다.|화면만으로 데이터와 환경을 복원하기 어렵다.|파일 이름은 충분한 실험 명세가 아니다.''')
 exec((pathlib.Path(__file__).parent/'code_questions.py').read_text())
+exec((pathlib.Path(__file__).parent/'refine_choices.py').read_text())
 # Stable IDs: first ten theory questions, next ten executable code questions per lesson.
 assert len(questions)==160
 assert all(sum(q['lesson']==i for q in questions)==20 for i in range(8))

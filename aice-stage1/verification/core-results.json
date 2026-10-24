@@ -9,9 +9,9 @@
     "error": 16
   },
   "levels": {
-    "1": 54,
-    "2": 71,
-    "3": 35
+    "1": 45,
+    "2": 96,
+    "3": 19
   },
   "tests": [
     "legacy exam preservation",

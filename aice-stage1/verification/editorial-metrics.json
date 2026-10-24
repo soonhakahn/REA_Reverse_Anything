@@ -1,0 +1,11 @@
+{
+  "correctStrictlyLongest": 13,
+  "correctLongestIncludingTies": 27,
+  "choiceQuestionCount": 80,
+  "absoluteWordsInWrongOptions": 6,
+  "levels": {
+    "1": 45,
+    "2": 96,
+    "3": 19
+  }
+}
