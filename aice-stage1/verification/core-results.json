@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "questions": 160,
+  "codeQuestions": 80,
+  "types": {
+    "choice": 80,
+    "blank": 16,
+    "output": 48,
+    "error": 16
+  },
+  "levels": {
+    "1": 54,
+    "2": 71,
+    "3": 35
+  },
+  "tests": [
+    "legacy exam preservation",
+    "legacy state preservation",
+    "wrong-note migration",
+    "stable question IDs",
+    "grading",
+    "history snapshot independence",
+    "deduplication",
+    "resolved/reopened lifecycle",
+    "breakdown",
+    "unanswered grading",
+    "reload"
+  ]
+}

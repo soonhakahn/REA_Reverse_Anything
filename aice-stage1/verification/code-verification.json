@@ -1,0 +1,914 @@
+[
+  {
+    "id": "L01-Q11",
+    "kind": "output",
+    "code": "a=[2,4]\nb=[6]\nprint(len(a+b))",
+    "expected": "3",
+    "observed": "3"
+  },
+  {
+    "id": "L01-Q12",
+    "kind": "output",
+    "code": "a=[0,10,20,30,40]\nprint(a[1:4:2])",
+    "expected": "[10, 30]",
+    "observed": "[10, 30]"
+  },
+  {
+    "id": "L01-Q13",
+    "kind": "output",
+    "code": "import numpy as np\na=np.array([[1,2],[3,4]])\nprint(a.sum(axis=0).tolist())",
+    "expected": "[4, 6]",
+    "observed": "[4, 6]"
+  },
+  {
+    "id": "L01-Q14",
+    "kind": "output",
+    "code": "import numpy as np\na=np.array([[1,2],[3,4]])\nprint((a+np.array([10,20])).tolist())",
+    "expected": "[[11, 22], [13, 24]]",
+    "observed": "[[11, 22], [13, 24]]"
+  },
+  {
+    "id": "L01-Q15",
+    "kind": "output",
+    "code": "import numpy as np\na=np.array([1,2,3])\nb=a.copy()\nb[0]=99\nprint(a.tolist())",
+    "expected": "[1, 2, 3]",
+    "observed": "[1, 2, 3]"
+  },
+  {
+    "id": "L01-Q16",
+    "kind": "output",
+    "code": "print(-7//3, -7%3)",
+    "expected": "-3 2",
+    "observed": "-3 2"
+  },
+  {
+    "id": "L01-Q17",
+    "kind": "replacement",
+    "template": "import numpy as np\na=np.array([1,2,3])\nprint(a[____].tolist())",
+    "options": [
+      "a>=2",
+      "a>2",
+      "a<2",
+      "a==2"
+    ],
+    "expected": "[2, 3]",
+    "observed": [
+      "[2, 3]",
+      "[3]",
+      "[1]",
+      "[2]"
+    ]
+  },
+  {
+    "id": "L01-Q18",
+    "kind": "replacement",
+    "template": "import numpy as np\na=np.arange(6)\nprint(a.reshape(____).shape)",
+    "options": [
+      "2,3",
+      "3,2",
+      "1,6",
+      "4,2"
+    ],
+    "expected": "(2, 3)",
+    "observed": [
+      "(2, 3)",
+      "(3, 2)",
+      "(1, 6)",
+      "ERROR: ValueError"
+    ]
+  },
+  {
+    "id": "L01-Q19",
+    "kind": "replacement",
+    "template": "import numpy as np\na=np.array([0,2,4,6])\n# 잘못된 표현식: (a>1) and (a<5)\nprint(a[____].tolist())",
+    "options": [
+      "(a>1) & (a<5)",
+      "(a>1) | (a<5)",
+      "a>1",
+      "a<5"
+    ],
+    "expected": "[2, 4]",
+    "observed": [
+      "[2, 4]",
+      "[0, 2, 4, 6]",
+      "[2, 4, 6]",
+      "[0, 2, 4]"
+    ]
+  },
+  {
+    "id": "L01-Q20",
+    "kind": "replacement",
+    "template": "a=[5,7,9]\n# 잘못된 접근: a[1.0]\nprint(____)",
+    "options": [
+      "a[1]",
+      "a[0]",
+      "a[2]",
+      "a[3]"
+    ],
+    "expected": "7",
+    "observed": [
+      "7",
+      "5",
+      "9",
+      "ERROR: IndexError"
+    ]
+  },
+  {
+    "id": "L02-Q11",
+    "kind": "output",
+    "code": "import pandas as pd\ndf=pd.DataFrame({\"a\":[1,None,3],\"b\":[None,None,2]})\nprint(df.isna().sum().tolist())",
+    "expected": "[1, 2]",
+    "observed": "[1, 2]"
+  },
+  {
+    "id": "L02-Q12",
+    "kind": "output",
+    "code": "import pandas as pd\ns=pd.Series([5,8,13],index=[10,20,30])\nprint(s.loc[20])",
+    "expected": "8",
+    "observed": "8"
+  },
+  {
+    "id": "L02-Q13",
+    "kind": "output",
+    "code": "import pandas as pd\ndf=pd.DataFrame({\"g\":[\"a\",\"a\",\"b\"],\"x\":[2,6,9]})\nprint(df.groupby(\"g\")[\"x\"].mean().tolist())",
+    "expected": "[4.0, 9.0]",
+    "observed": "[4.0, 9.0]"
+  },
+  {
+    "id": "L02-Q14",
+    "kind": "output",
+    "code": "import pandas as pd\na=pd.DataFrame({\"k\":[1,1]})\nb=pd.DataFrame({\"k\":[1,1,1]})\nprint(len(a.merge(b,on=\"k\")))",
+    "expected": "6",
+    "observed": "6"
+  },
+  {
+    "id": "L02-Q15",
+    "kind": "output",
+    "code": "import pandas as pd\ns=pd.Series([\"a\",\"a\",None,\"b\"])\nprint(s.value_counts(dropna=False).sum())",
+    "expected": "4",
+    "observed": "4"
+  },
+  {
+    "id": "L02-Q16",
+    "kind": "output",
+    "code": "import pandas as pd\ndf=pd.DataFrame({\"x\":[7,2,5]})\nprint(df.sort_values(\"x\").iloc[0,0])",
+    "expected": "2",
+    "observed": "2"
+  },
+  {
+    "id": "L02-Q17",
+    "kind": "replacement",
+    "template": "import pandas as pd\ndf=pd.DataFrame({\"x\":[1,2],\"y\":[3,4]})\nprint(____.shape)",
+    "options": [
+      "df[[\"x\"]]",
+      "df[\"x\"]",
+      "df",
+      "df.iloc[:1]"
+    ],
+    "expected": "(2, 1)",
+    "observed": [
+      "(2, 1)",
+      "(2,)",
+      "(2, 2)",
+      "(1, 2)"
+    ]
+  },
+  {
+    "id": "L02-Q18",
+    "kind": "replacement",
+    "template": "import pandas as pd\ndf=pd.DataFrame({\"x\":[1,None,3]})\nprint(len(____))",
+    "options": [
+      "df.dropna()",
+      "df.fillna(0)",
+      "df.head(1)",
+      "df.tail(3)"
+    ],
+    "expected": "2",
+    "observed": [
+      "2",
+      "3",
+      "1",
+      "3"
+    ]
+  },
+  {
+    "id": "L02-Q19",
+    "kind": "replacement",
+    "template": "import pandas as pd\ns=pd.Series([4,9],index=[10,20])\nprint(____)",
+    "options": [
+      "s.iloc[0]",
+      "s.loc[20]",
+      "s.iloc[1]",
+      "s.loc[0]"
+    ],
+    "expected": "4",
+    "observed": [
+      "4",
+      "9",
+      "9",
+      "ERROR: KeyError"
+    ]
+  },
+  {
+    "id": "L02-Q20",
+    "kind": "replacement",
+    "template": "import pandas as pd\ns=pd.Series([\"12\",\"3\"])\nprint(____)",
+    "options": [
+      "pd.to_numeric(s).sum()",
+      "s.sum()",
+      "len(s)",
+      "s.count()"
+    ],
+    "expected": "15",
+    "observed": [
+      "15",
+      "123",
+      "2",
+      "2"
+    ]
+  },
+  {
+    "id": "L03-Q11",
+    "kind": "output",
+    "code": "import numpy as np\nfrom sklearn.impute import SimpleImputer\nx=np.array([[2.],[4.],[np.nan]])\nprint(SimpleImputer().fit_transform(x).ravel().tolist())",
+    "expected": "[2.0, 4.0, 3.0]",
+    "observed": "[2.0, 4.0, 3.0]"
+  },
+  {
+    "id": "L03-Q12",
+    "kind": "output",
+    "code": "from sklearn.preprocessing import StandardScaler\ns=StandardScaler().fit([[0.],[2.]])\nprint(s.transform([[0.],[2.]]).ravel().tolist())",
+    "expected": "[-1.0, 1.0]",
+    "observed": "[-1.0, 1.0]"
+  },
+  {
+    "id": "L03-Q13",
+    "kind": "output",
+    "code": "from sklearn.preprocessing import MinMaxScaler\ns=MinMaxScaler().fit([[10.],[20.]])\nprint(s.transform([[30.]]).item())",
+    "expected": "2.0",
+    "observed": "2.0"
+  },
+  {
+    "id": "L03-Q14",
+    "kind": "output",
+    "code": "from sklearn.preprocessing import OneHotEncoder\ne=OneHotEncoder(sparse_output=False).fit([[\"a\"],[\"b\"],[\"c\"]])\nprint(e.transform([[\"a\"],[\"b\"]]).shape)",
+    "expected": "(2, 3)",
+    "observed": "(2, 3)"
+  },
+  {
+    "id": "L03-Q15",
+    "kind": "output",
+    "code": "from sklearn.preprocessing import OneHotEncoder\ne=OneHotEncoder(handle_unknown=\"ignore\",sparse_output=False).fit([[\"a\"],[\"b\"]])\nprint(e.transform([[\"c\"]]).tolist())",
+    "expected": "[[0.0, 0.0]]",
+    "observed": "[[0.0, 0.0]]"
+  },
+  {
+    "id": "L03-Q16",
+    "kind": "output",
+    "code": "from sklearn.model_selection import train_test_split\na,b=train_test_split(list(range(20)),test_size=0.25,random_state=42)\nprint(len(a),len(b))",
+    "expected": "15 5",
+    "observed": "15 5"
+  },
+  {
+    "id": "L03-Q17",
+    "kind": "replacement",
+    "template": "from sklearn.preprocessing import StandardScaler\ns=StandardScaler().fit([[0.],[2.]])\nprint(____.item())",
+    "options": [
+      "s.transform([[3.]])",
+      "s.fit_transform([[3.]])",
+      "s.transform([[1.]])",
+      "s.transform([[0.]])"
+    ],
+    "expected": "2.0",
+    "observed": [
+      "2.0",
+      "0.0",
+      "0.0",
+      "-1.0"
+    ]
+  },
+  {
+    "id": "L03-Q18",
+    "kind": "replacement",
+    "template": "import numpy as np\nfrom sklearn.impute import SimpleImputer\nx=[[1.],[2.],[90.],[np.nan]]\nprint(SimpleImputer(strategy=____).fit_transform(x)[-1,0])",
+    "options": [
+      "\"median\"",
+      "\"mean\"",
+      "\"most_frequent\"",
+      "\"constant\""
+    ],
+    "expected": "2.0",
+    "observed": [
+      "2.0",
+      "31.0",
+      "1.0",
+      "0.0"
+    ]
+  },
+  {
+    "id": "L03-Q19",
+    "kind": "replacement",
+    "template": "from sklearn.preprocessing import StandardScaler\ns=StandardScaler().fit([[0.],[2.]])\n# 잘못된 입력: [[\"high\"]]\nprint(s.transform(____).item())",
+    "options": [
+      "[[2.]]",
+      "[[\"high\"]]",
+      "[[0.]]",
+      "[[1.]]"
+    ],
+    "expected": "1.0",
+    "observed": [
+      "1.0",
+      "ERROR: ValueError",
+      "-1.0",
+      "0.0"
+    ]
+  },
+  {
+    "id": "L03-Q20",
+    "kind": "replacement",
+    "template": "from sklearn.preprocessing import OneHotEncoder\ne=OneHotEncoder(handle_unknown=____,sparse_output=False).fit([[\"a\"],[\"b\"]])\nprint(e.transform([[\"c\"]]).tolist())",
+    "options": [
+      "\"ignore\"",
+      "\"error\"",
+      "\"bad\"",
+      "None"
+    ],
+    "expected": "[[0.0, 0.0]]",
+    "observed": [
+      "[[0.0, 0.0]]",
+      "ERROR: ValueError",
+      "ERROR: InvalidParameterError",
+      "ERROR: InvalidParameterError"
+    ]
+  },
+  {
+    "id": "L04-Q11",
+    "kind": "output",
+    "code": "from sklearn.metrics import confusion_matrix\ny=[0,0,1,1]\np=[0,1,0,1]\nprint(confusion_matrix(y,p).ravel().tolist())",
+    "expected": "[1, 1, 1, 1]",
+    "observed": "[1, 1, 1, 1]"
+  },
+  {
+    "id": "L04-Q12",
+    "kind": "output",
+    "code": "from sklearn.metrics import accuracy_score\ny=[0]*9+[1]\nprint(accuracy_score(y,[0]*10))",
+    "expected": "0.9",
+    "observed": "0.9"
+  },
+  {
+    "id": "L04-Q13",
+    "kind": "output",
+    "code": "from sklearn.metrics import recall_score\nprint(recall_score([1,1,1,1,0],[1,1,1,0,1]))",
+    "expected": "0.75",
+    "observed": "0.75"
+  },
+  {
+    "id": "L04-Q14",
+    "kind": "output",
+    "code": "from sklearn.metrics import precision_score\nprint(precision_score([1,1,0,0,0],[1,1,1,1,0]))",
+    "expected": "0.5",
+    "observed": "0.5"
+  },
+  {
+    "id": "L04-Q15",
+    "kind": "output",
+    "code": "p=[0.1,0.4,0.6,0.9]\nprint([int(v>=0.4) for v in p])",
+    "expected": "[0, 1, 1, 1]",
+    "observed": "[0, 1, 1, 1]"
+  },
+  {
+    "id": "L04-Q16",
+    "kind": "output",
+    "code": "from sklearn.metrics import roc_auc_score\nprint(roc_auc_score([0,0,1,1],[0.1,0.2,0.8,0.9]))",
+    "expected": "1.0",
+    "observed": "1.0"
+  },
+  {
+    "id": "L04-Q17",
+    "kind": "replacement",
+    "template": "p,r=1.0,0.5\nprint(round(____,3))",
+    "options": [
+      "2*p*r/(p+r)",
+      "(p+r)/2",
+      "p*r",
+      "p-r"
+    ],
+    "expected": "0.667",
+    "observed": [
+      "0.667",
+      "0.75",
+      "0.5",
+      "0.5"
+    ]
+  },
+  {
+    "id": "L04-Q18",
+    "kind": "replacement",
+    "template": "import numpy as np\np=np.array([[0.7,0.3],[0.2,0.8]])\nprint(____.tolist())",
+    "options": [
+      "p[:,1]",
+      "p[:,0]",
+      "p[1,:]",
+      "p[0,:]"
+    ],
+    "expected": "[0.3, 0.8]",
+    "observed": [
+      "[0.3, 0.8]",
+      "[0.7, 0.2]",
+      "[0.2, 0.8]",
+      "[0.7, 0.3]"
+    ]
+  },
+  {
+    "id": "L04-Q19",
+    "kind": "replacement",
+    "template": "from sklearn.tree import DecisionTreeClassifier\nm=DecisionTreeClassifier(random_state=0)\n____\nprint(m.predict([[0],[1]]).tolist())",
+    "options": [
+      "m.fit([[0],[1]],[0,1])",
+      "m.predict([[0],[1]])",
+      "m.get_params()",
+      "m.fit([[0],[1]],[1,0])"
+    ],
+    "expected": "[0, 1]",
+    "observed": [
+      "[0, 1]",
+      "ERROR: NotFittedError",
+      "ERROR: NotFittedError",
+      "[1, 0]"
+    ]
+  },
+  {
+    "id": "L04-Q20",
+    "kind": "replacement",
+    "template": "from sklearn.metrics import accuracy_score\np=[0.2,0.8]\nprint(accuracy_score([0,1],____))",
+    "options": [
+      "[int(v>=0.5) for v in p]",
+      "p",
+      "[1,0]",
+      "[0,0]"
+    ],
+    "expected": "1.0",
+    "observed": [
+      "1.0",
+      "ERROR: ValueError",
+      "0.0",
+      "0.5"
+    ]
+  },
+  {
+    "id": "L05-Q11",
+    "kind": "output",
+    "code": "from sklearn.metrics import mean_absolute_error\nprint(mean_absolute_error([2,4],[1,7]))",
+    "expected": "2.0",
+    "observed": "2.0"
+  },
+  {
+    "id": "L05-Q12",
+    "kind": "output",
+    "code": "from sklearn.metrics import mean_squared_error\nprint(mean_squared_error([2,4],[1,7]))",
+    "expected": "5.0",
+    "observed": "5.0"
+  },
+  {
+    "id": "L05-Q13",
+    "kind": "output",
+    "code": "from sklearn.metrics import mean_squared_error\nprint(mean_squared_error([0,0],[3,3])**0.5)",
+    "expected": "3.0",
+    "observed": "3.0"
+  },
+  {
+    "id": "L05-Q14",
+    "kind": "output",
+    "code": "from sklearn.metrics import r2_score\nprint(r2_score([1,2,3],[0,0,0]))",
+    "expected": "-6.0",
+    "observed": "-6.0"
+  },
+  {
+    "id": "L05-Q15",
+    "kind": "output",
+    "code": "from sklearn.linear_model import LinearRegression\nm=LinearRegression().fit([[0],[1],[2]],[1,3,5])\nprint(round(m.predict([[3]])[0],3))",
+    "expected": "7.0",
+    "observed": "7.0"
+  },
+  {
+    "id": "L05-Q16",
+    "kind": "output",
+    "code": "import numpy as np\ny=np.log1p(9.)\nprint(round(float(np.expm1(y)),3))",
+    "expected": "9.0",
+    "observed": "9.0"
+  },
+  {
+    "id": "L05-Q17",
+    "kind": "replacement",
+    "template": "errors=[2,-4]\nprint(____)",
+    "options": [
+      "sum(abs(e) for e in errors)/len(errors)",
+      "sum(errors)/len(errors)",
+      "sum(e*e for e in errors)/len(errors)",
+      "max(errors)"
+    ],
+    "expected": "3.0",
+    "observed": [
+      "3.0",
+      "-1.0",
+      "10.0",
+      "2"
+    ]
+  },
+  {
+    "id": "L05-Q18",
+    "kind": "replacement",
+    "template": "mse=16\nprint(____)",
+    "options": [
+      "mse**0.5",
+      "mse**2",
+      "mse/2",
+      "-mse"
+    ],
+    "expected": "4.0",
+    "observed": [
+      "4.0",
+      "256",
+      "8.0",
+      "-16"
+    ]
+  },
+  {
+    "id": "L05-Q19",
+    "kind": "replacement",
+    "template": "from sklearn.linear_model import LinearRegression\nm=LinearRegression().fit([[0],[1]],[0,2])\nprint(round(float(m.predict(____)[0]),2))",
+    "options": [
+      "[[3]]",
+      "[3]",
+      "[[2]]",
+      "[[1,3]]"
+    ],
+    "expected": "6.0",
+    "observed": [
+      "6.0",
+      "ERROR: ValueError",
+      "4.0",
+      "ERROR: ValueError"
+    ]
+  },
+  {
+    "id": "L05-Q20",
+    "kind": "replacement",
+    "template": "from sklearn.metrics import mean_absolute_error\ny=[1,3]\nprint(mean_absolute_error(y,____))",
+    "options": [
+      "[1,3]",
+      "[1]",
+      "[3,1]",
+      "[0,0]"
+    ],
+    "expected": "0.0",
+    "observed": [
+      "0.0",
+      "ERROR: ValueError",
+      "2.0",
+      "2.0"
+    ]
+  },
+  {
+    "id": "L06-Q11",
+    "kind": "output",
+    "code": "from sklearn.cluster import KMeans\nm=KMeans(n_clusters=1,n_init=10,random_state=0).fit([[0.],[2.],[4.]])\nprint(m.cluster_centers_.ravel().tolist())",
+    "expected": "[2.0]",
+    "observed": "[2.0]"
+  },
+  {
+    "id": "L06-Q12",
+    "kind": "output",
+    "code": "from sklearn.cluster import KMeans\nm=KMeans(n_clusters=1,n_init=10,random_state=0).fit([[0.],[2.],[4.]])\nprint(m.inertia_)",
+    "expected": "8.0",
+    "observed": "8.0"
+  },
+  {
+    "id": "L06-Q13",
+    "kind": "output",
+    "code": "from sklearn.cluster import DBSCAN\nprint(DBSCAN(eps=0.5,min_samples=2).fit_predict([[0.],[10.]]).tolist())",
+    "expected": "[-1, -1]",
+    "observed": "[-1, -1]"
+  },
+  {
+    "id": "L06-Q14",
+    "kind": "output",
+    "code": "from sklearn.decomposition import PCA\nx=[[1,2],[2,4],[3,6]]\nprint(PCA(n_components=1).fit_transform(x).shape)",
+    "expected": "(3, 1)",
+    "observed": "(3, 1)"
+  },
+  {
+    "id": "L06-Q15",
+    "kind": "output",
+    "code": "from sklearn.decomposition import PCA\np=PCA(n_components=1).fit([[1,2],[2,4],[3,6]])\nprint(round(float(p.explained_variance_ratio_[0]),6))",
+    "expected": "1.0",
+    "observed": "1.0"
+  },
+  {
+    "id": "L06-Q16",
+    "kind": "output",
+    "code": "from sklearn.metrics import adjusted_rand_score\nprint(adjusted_rand_score([0,0,1,1],[1,1,0,0]))",
+    "expected": "1.0",
+    "observed": "1.0"
+  },
+  {
+    "id": "L06-Q17",
+    "kind": "replacement",
+    "template": "from sklearn.decomposition import PCA\nx=[[1,0,2],[2,1,0],[0,3,1],[4,0,2]]\nprint(PCA(n_components=____).fit_transform(x).shape)",
+    "options": [
+      "2",
+      "1",
+      "3",
+      "4"
+    ],
+    "expected": "(4, 2)",
+    "observed": [
+      "(4, 2)",
+      "(4, 1)",
+      "(4, 3)",
+      "ERROR: ValueError"
+    ]
+  },
+  {
+    "id": "L06-Q18",
+    "kind": "replacement",
+    "template": "import numpy as np\na=np.array([0.,0.]); b=np.array([3.,4.])\nprint(____)",
+    "options": [
+      "np.linalg.norm(a-b)",
+      "np.sum(a-b)",
+      "np.sum((a-b)**2)",
+      "np.max(b)"
+    ],
+    "expected": "5.0",
+    "observed": [
+      "5.0",
+      "-7.0",
+      "25.0",
+      "4.0"
+    ]
+  },
+  {
+    "id": "L06-Q19",
+    "kind": "replacement",
+    "template": "from sklearn.cluster import KMeans\nm=KMeans(n_clusters=____,n_init=10,random_state=0).fit([[0.],[2.]])\nprint(m.cluster_centers_.shape)",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "0"
+    ],
+    "expected": "(1, 1)",
+    "observed": [
+      "(1, 1)",
+      "(2, 1)",
+      "ERROR: ValueError",
+      "ERROR: InvalidParameterError"
+    ]
+  },
+  {
+    "id": "L06-Q20",
+    "kind": "replacement",
+    "template": "from sklearn.cluster import DBSCAN\nprint(DBSCAN(eps=____,min_samples=2).fit_predict([[0.],[0.4]]).tolist())",
+    "options": [
+      "0.5",
+      "0",
+      "0.1",
+      "-1"
+    ],
+    "expected": "[0, 0]",
+    "observed": [
+      "[0, 0]",
+      "ERROR: InvalidParameterError",
+      "[-1, -1]",
+      "ERROR: InvalidParameterError"
+    ]
+  },
+  {
+    "id": "L07-Q11",
+    "kind": "output",
+    "code": "import numpy as np\nx=np.array([-2.,0.,3.])\nprint(np.maximum(0,x).tolist())",
+    "expected": "[0.0, 0.0, 3.0]",
+    "observed": "[0.0, 0.0, 3.0]"
+  },
+  {
+    "id": "L07-Q12",
+    "kind": "output",
+    "code": "import math\nprint(1/(1+math.exp(0)))",
+    "expected": "0.5",
+    "observed": "0.5"
+  },
+  {
+    "id": "L07-Q13",
+    "kind": "output",
+    "code": "import numpy as np\nz=np.array([2.,2.])\np=np.exp(z-z.max());p=p/p.sum()\nprint(p.tolist())",
+    "expected": "[0.5, 0.5]",
+    "observed": "[0.5, 0.5]"
+  },
+  {
+    "id": "L07-Q14",
+    "kind": "output",
+    "code": "inputs,units=3,2\nprint(inputs*units+units)",
+    "expected": "8",
+    "observed": "8"
+  },
+  {
+    "id": "L07-Q15",
+    "kind": "output",
+    "code": "w,lr,grad=2.0,0.1,3.0\nprint(round(w-lr*grad,2))",
+    "expected": "1.7",
+    "observed": "1.7"
+  },
+  {
+    "id": "L07-Q16",
+    "kind": "output",
+    "code": "import math\nprint(math.ceil(100/32))",
+    "expected": "4",
+    "observed": "4"
+  },
+  {
+    "id": "L07-Q17",
+    "kind": "replacement",
+    "template": "import numpy as np\nx=np.array([1.,2.]);w=np.array([3.,4.]);b=1.\nprint(____)",
+    "options": [
+      "x@w+b",
+      "x.sum()+w.sum()+b",
+      "(x@w)*2",
+      "x@w-b"
+    ],
+    "expected": "12.0",
+    "observed": [
+      "12.0",
+      "11.0",
+      "22.0",
+      "10.0"
+    ]
+  },
+  {
+    "id": "L07-Q18",
+    "kind": "replacement",
+    "template": "import math\np=0.5\nprint(round(____,3))",
+    "options": [
+      "-math.log(p)",
+      "math.log(p)",
+      "p*p",
+      "1-p"
+    ],
+    "expected": "0.693",
+    "observed": [
+      "0.693",
+      "-0.693",
+      "0.25",
+      "0.5"
+    ]
+  },
+  {
+    "id": "L07-Q19",
+    "kind": "replacement",
+    "template": "import numpy as np\nz=np.array([1000.,1000.])\ne=np.exp(____)\nprint((e/e.sum()).tolist())",
+    "options": [
+      "z-z.max()",
+      "z",
+      "-z",
+      "z.sum()"
+    ],
+    "expected": "[0.5, 0.5]",
+    "observed": [
+      "[0.5, 0.5]",
+      "[nan, nan]",
+      "[nan, nan]",
+      "nan"
+    ]
+  },
+  {
+    "id": "L07-Q20",
+    "kind": "replacement",
+    "template": "import numpy as np\nx=np.ones((2,3))\nw=np.ones(____)\nprint((x@w).shape)",
+    "options": [
+      "(3,4)",
+      "(4,3)",
+      "(3,2)",
+      "(2,4)"
+    ],
+    "expected": "(2, 4)",
+    "observed": [
+      "(2, 4)",
+      "ERROR: ValueError",
+      "(2, 2)",
+      "ERROR: ValueError"
+    ]
+  },
+  {
+    "id": "L08-Q11",
+    "kind": "output",
+    "code": "from sklearn.model_selection import KFold\nprint([len(v) for t,v in KFold(n_splits=3).split(range(9))])",
+    "expected": "[3, 3, 3]",
+    "observed": "[3, 3, 3]"
+  },
+  {
+    "id": "L08-Q12",
+    "kind": "output",
+    "code": "from sklearn.model_selection import ParameterGrid\nprint(len(list(ParameterGrid({\"a\":[1,2],\"b\":[3,4,5]}))))",
+    "expected": "6",
+    "observed": "6"
+  },
+  {
+    "id": "L08-Q13",
+    "kind": "output",
+    "code": "scores=[-9.,-4.,-16.]\nprint(max(scores))",
+    "expected": "-4.0",
+    "observed": "-4.0"
+  },
+  {
+    "id": "L08-Q14",
+    "kind": "output",
+    "code": "import numpy as np\nfrom sklearn.model_selection import GroupKFold\ng=np.array([0,0,1,1,2,2])\nprint([len(set(g[t]) & set(g[v])) for t,v in GroupKFold(3).split(np.zeros((6,1)),groups=g)])",
+    "expected": "[0, 0, 0]",
+    "observed": "[0, 0, 0]"
+  },
+  {
+    "id": "L08-Q15",
+    "kind": "output",
+    "code": "from sklearn.model_selection import TimeSeriesSplit\nprint(all(max(t)<min(v) for t,v in TimeSeriesSplit(n_splits=3).split(range(12))))",
+    "expected": "True",
+    "observed": "True"
+  },
+  {
+    "id": "L08-Q16",
+    "kind": "output",
+    "code": "from sklearn.pipeline import Pipeline\nfrom sklearn.tree import DecisionTreeClassifier\np=Pipeline([(\"model\",DecisionTreeClassifier(max_depth=3))])\nprint(p.get_params()[\"model__max_depth\"])",
+    "expected": "3",
+    "observed": "3"
+  },
+  {
+    "id": "L08-Q17",
+    "kind": "replacement",
+    "template": "scores=[0.6,0.8,1.0]\nprint(round(____,2))",
+    "options": [
+      "sum(scores)/len(scores)",
+      "max(scores)",
+      "min(scores)",
+      "sum(scores)"
+    ],
+    "expected": "0.8",
+    "observed": [
+      "0.8",
+      "1.0",
+      "0.6",
+      "2.4"
+    ]
+  },
+  {
+    "id": "L08-Q18",
+    "kind": "replacement",
+    "template": "import numpy as np\nscores=[0.7,0.9,0.8]\nprint(____)",
+    "options": [
+      "int(np.argmax(scores))",
+      "int(np.argmin(scores))",
+      "len(scores)",
+      "0"
+    ],
+    "expected": "1",
+    "observed": [
+      "1",
+      "0",
+      "3",
+      "0"
+    ]
+  },
+  {
+    "id": "L08-Q19",
+    "kind": "replacement",
+    "template": "from sklearn.pipeline import Pipeline\nfrom sklearn.tree import DecisionTreeClassifier\np=Pipeline([(\"model\",DecisionTreeClassifier())])\np.set_params(**{____:2})\nprint(p.named_steps[\"model\"].max_depth)",
+    "options": [
+      "\"model__max_depth\"",
+      "\"max_depth\"",
+      "\"model_max_depth\"",
+      "\"tree__max_depth\""
+    ],
+    "expected": "2",
+    "observed": [
+      "2",
+      "ERROR: ValueError",
+      "ERROR: ValueError",
+      "ERROR: ValueError"
+    ]
+  },
+  {
+    "id": "L08-Q20",
+    "kind": "replacement",
+    "template": "from sklearn.model_selection import KFold\nprint(len(list(KFold(n_splits=____).split(range(4)))))",
+    "options": [
+      "2",
+      "5",
+      "1",
+      "4"
+    ],
+    "expected": "2",
+    "observed": [
+      "2",
+      "ERROR: ValueError",
+      "ERROR: ValueError",
+      "4"
+    ]
+  }
+]
