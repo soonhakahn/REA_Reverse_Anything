@@ -28,7 +28,7 @@ def output(lesson,text,code,expected,wrong,reason,level=2):
 def fill(lesson,text,template,opts,expected,reason,level=2,error=False):
  observed=[run(template.replace('____',o)) for o in opts]
  assert observed[0]==expected and all(x!=expected for x in observed[1:]),(text,observed,expected)
- reasons=[reason]+[f'이 코드를 넣으면 {v}이므로 목표 결과 {expected}와 다릅니다.' for v in observed[1:]]
+ reasons=[reason]+[f'실행 결과: {v}. 목표 출력({expected})과 일치하지 않습니다.' for v in observed[1:]]
  add(lesson,text+f' 목표 출력: {expected}',opts,reasons,level,'error' if error else 'blank',template,verification={'kind':'replacement','template':template,'options':opts,'expected':expected,'observed':observed})
 theory(0, '''파이썬 리스트와 NumPy 배열을 구분한 설명은?|리스트 +는 이어 붙이고 배열 +는 원소별 합을 구한다|둘 다 원소별 합만 구한다|둘 다 이어 붙이기만 한다|배열은 덧셈을 지원하지 않는다|리스트의 +는 연결, ndarray의 +는 브로드캐스팅 가능한 원소별 연산이다.|리스트 +는 원소별 덧셈이 아니다.|배열 +는 연결이 아니며 연결에는 concatenate 등을 쓴다.|수치 배열은 덧셈을 지원한다.
 반복문 안에서 같은 리스트를 직접 수정하면 주의할 점은?|별칭이 가리키는 원본도 함께 바뀔 수 있다|대입할 때 항상 깊은 복사가 된다|튜플도 같은 방법으로 수정할 수 있다|변수 이름이 다르면 객체도 항상 다르다|두 변수가 같은 객체를 참조하면 한쪽의 변경이 다른 쪽에도 보인다.|단순 대입은 복사가 아니다.|튜플은 원소 대입을 허용하지 않는다.|변수 이름이 달라도 같은 객체를 참조할 수 있다.

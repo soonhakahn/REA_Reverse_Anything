@@ -2,7 +2,7 @@
   "correctStrictlyLongest": 20,
   "correctLongestIncludingTies": 20,
   "choiceQuestionCount": 80,
-  "absoluteWordsInWrongOptions": 6,
+  "absoluteWordsInWrongOptions": 7,
   "correctPositionCounts": {
     "1": 18,
     "3": 21,

@@ -20,14 +20,14 @@
   {
     "path": "assets/exams.json",
     "status": "modified",
-    "bytes": 101326,
-    "sha256": "be24207a0b4a4b05e869d1b08828b94f177af514cc319f9221925317f6d29284"
+    "bytes": 101074,
+    "sha256": "9a7723f952828a114b018a72e7d529c97e701e25792644666ae926043bdde5dd"
   },
   {
     "path": "assets/question-bank.json",
     "status": "added",
-    "bytes": 176006,
-    "sha256": "90b03e1dff2847214e4a4fe644632442f6a795b447811489ba01d9f19676b248"
+    "bytes": 175437,
+    "sha256": "115fbc5cf76d053fc53b2c52dcc43f33027b23b9da2af155d4473ec5fdf75efb"
   },
   {
     "path": "assets/app.js",
