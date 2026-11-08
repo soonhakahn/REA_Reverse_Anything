@@ -143,3 +143,8 @@ node scripts/verify-rea-mcp.mjs
 - **릴리스와 `main`:** `main`의 `package.json`도 6.4.0이지만 내용은 릴리스와 다릅니다. 업스트림도 새 기능은 릴리스나 소스 빌드가 있어야 쓸 수 있다고 안내합니다. 릴리스 확인은 `npm view rea-agents dist-tags.latest`입니다.
 - **수동 등록:** `.mcp.json`의 명령은 업스트림 [`docs/installation.md#mcp-registry`](https://github.com/morluto/rea/blob/main/docs/installation.md#mcp-registry)의 JSON과 같고, 영구 등록은 정확한 버전 하나로 고정하라는 지침과도 맞습니다. Apidog 문서에는 이 JSON이 없습니다.
 - **스킬 버전:** `main`의 스킬(v42)은 `api-surface`를 언급하지만, 이 저장소에는 서버와 짝이 맞는 6.4.0 번들 스킬(v37, 도구 170개)을 넣었습니다. `npx skills add morluto/rea`로 덮어쓰지 마세요.
+
+## Tiger Data 예제 (MLH Global Hack Week: Builders Week)
+
+REA 도구 실행 이벤트(합성 데이터)를 Tiger Cloud Hypertable에 저장하고 Tiger CLI/MCP로 조회하는 예제입니다.
+[examples/tigerdata](examples/tigerdata/README.md) · [docs/ghw-builders-2026.md](docs/ghw-builders-2026.md)
