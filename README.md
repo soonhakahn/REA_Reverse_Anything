@@ -148,3 +148,14 @@ node scripts/verify-rea-mcp.mjs
 
 REA 도구 실행 이벤트(합성 데이터)를 Tiger Cloud Hypertable에 저장하고 Tiger CLI/MCP로 조회하는 예제입니다.
 [examples/tigerdata](examples/tigerdata/README.md) · [docs/ghw-builders-2026.md](docs/ghw-builders-2026.md)
+
+## AI 드림팀 편성기 (`ai-dream-team/`)
+
+지휘자 AI와 직원 AI를 고르면 내 환경에 맞는 연결 요청문을 만들어 주는 웹앱입니다. [implaytips의 AI 드림팀 연결 프롬프트](https://implaytips.com/ai-dream-team-prompt/) 카드의 흐름과 안전 규칙을 따르고, 도구를 7종으로 넓혔습니다.
+
+- 지원 도구: 클로드 코드, 코덱스, 안티그래비티, 오픈코드, 헤르메스 에이전트, 제미나이 CLI, 커서 CLI
+- 선택값은 브라우저(`localStorage`)에만 저장되고 서버로 보내지 않습니다.
+- 클로드 코드·코덱스·안티그래비티의 호출 형식은 원문이 확인한 형식이고, 나머지는 설치된 버전의 `--help`로 대조하도록 요청문에 "확인 필요"로 표시합니다.
+- 아이폰: Safari에서 열고 공유 → "홈 화면에 추가"를 누르면 앱처럼 쓸 수 있습니다.
+
+주소(GitHub Pages를 켠 뒤): https://soonhakahn.github.io/REA_Reverse_Anything/ai-dream-team/
